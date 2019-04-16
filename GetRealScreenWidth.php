@@ -1,17 +1,17 @@
 <?php
 /*  Get the physical and visible screen width
 
-    When ready, these variables are set:
+    When done, these variables are set:
             $PhysicalWidth      = the hardware's maximum width
             $PhysicalHeight     = the hardware's maximum height
             $VisibleScreenWidth = the usable width of the window
 
 */
 
-// set this stepsize to any value between 1 and 100; 10 works best
+// set this stepsize to any value between 1 and 100 depending on the precision you need
         $StepSize = 10;
 
-// setthis to the max that you expect (up to 16640 for 16k UHD)
+// setthis to the max that you expect to need (e.g. up to 16640 for 16k UHD)
         $MaxWidthExpected = 3000;
 
 // set up a php session
@@ -42,7 +42,7 @@
         } while ($ScreenWidthIndex<$MaxWidthExpected);
         echo "</style>";
 
-// create the scripts to get the real color value for the actual visible screen width
+// create the scripts to get the real color value of the items that css makes visible 
 ?>
 <script>
     function GetColorOfDiv(MinWidthVal) {
@@ -76,13 +76,13 @@
 
         echo "</head>";
 
-// make sure the colors are updated when the user resizes the screen
+// make sure the colors are updated when the user resizes the screen, so we can find the ones off screen
         echo "<body onresize='ReloadOnResize()'>";
 
 // here we display the value as an indication to the script that we succeeded
         echo "<br>Screensize=<div id='ReturnValue'>No</div>";
 
-// now create all individual divs that are default black but the style makes them red when outsize the screen width
+// now create all individual divs that are default black but the css style makes them red when outsize the screen width
         $ScreenWidthIndex = 0;
         do {
             echo "<div style='color:black;' id=xyz" . $ScreenWidthIndex . " class=div" . $ScreenWidthIndex . ">" . $ScreenWidthIndex . "</div>\n";
@@ -96,7 +96,7 @@
             $ScreenWidthIndex = $ScreenWidthIndex + $StepSize;
         } while ($ScreenWidthIndex<$MaxWidthExpected);
 
-// This is what we need: the script puts the result in this cookie
+// the script puts the result in this cookie, so get it from there
         $VisibleScreenWidth = $_COOKIE["Screenwidth"];
         echo "Value from cookie " . $VisibleScreenWidth;
 
